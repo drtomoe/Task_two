@@ -1,7 +1,7 @@
-# Name: site_map.py
+# site_map.py
 
 python: 3.7
-additional library: beautifulsoup4; requests; lxml --> see requirements.txt
+- additional library: beautifulsoup4; requests; lxml --> see requirements.txt
 
 ## To run script: 
 Run script from cmd 'python site_map.py http://url_address_to_map'.

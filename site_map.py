@@ -7,10 +7,8 @@ import sys
 if len(sys.argv) > 1:
     base_address = sys.argv[1]
 else:
-    base_address = 'http://127.0.0.1:8000'
+    base_address = 'http://0.0.0.0:8000'
 
-# http://127.0.0.1:8000
-# http://0.0.0.0:8000
 
 # check - if url doesn't end with '/', it can cause problems while adding path - for example /other_site
 if base_address.endswith('/'):
@@ -20,6 +18,22 @@ pages_todo = set()
 pages_todo.add(base_address)
 
 pages_done = {}
+
+
+def check_all_pages_from_todo():
+
+    while len(pages_todo) > len(pages_done):
+
+        for address in pages_todo:
+            if address not in pages_done:
+                check_address(address)
+
+        # can't change iterator while iterate for it, so second 'for' to update pages_todo
+        for address in pages_done:
+            for link in pages_done[address]['links']:
+                pages_todo.add(link)
+
+    print_pages()
 
 
 def check_address(address):
@@ -52,22 +66,6 @@ def print_pages():
         for element in pages_done[address]:
             print(f'{element}: {pages_done[address][element]}')
         print()
-
-
-def check_all_pages_from_todo():
-
-    while len(pages_todo) > len(pages_done):
-
-        for address in pages_todo:
-            if address not in pages_done:
-                check_address(address)
-
-        # can't change iterator while iterate for it, so second 'for' to update pages_todo
-        for address in pages_done:
-            for link in pages_done[address]['links']:
-                pages_todo.add(link)
-
-    print_pages()
 
 
 if __name__ == '__main__':
